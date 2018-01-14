@@ -2,7 +2,7 @@
 
 ## Block diagram
 
-![Block diagram](./images/BlockDiagram.svg)
+![Block diagram](./images/BlockDiagram.png)
 
 1. **Social Media Component:** This component is responsible for the aggregration and processing of social media data.
     1. **Social Media Connection Scrapper:** This block is responsible for aggregrating the social media metrics which would be consumed by the loan amount logic.
