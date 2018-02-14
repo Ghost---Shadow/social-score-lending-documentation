@@ -72,6 +72,28 @@ user-session: userId
 ```
 <hr>
 
+### `/users/info` - GET - used for getting user information
+
+Returns an object containing user specific information namely, name, email, social score and connected accounts.
+
+**consumes**
+
+```
+user-session: userId
+```
+
+**emits**
+
+```
+{
+  name: String,
+  email: String,
+  social_score: Number,
+  connected_accounts: bool[]
+}
+```
+<hr>
+
 ## Bank Routes
 
 <hr>
