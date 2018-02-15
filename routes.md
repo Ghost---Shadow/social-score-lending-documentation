@@ -1,41 +1,22 @@
 # Routes
 
+## Authorization
+
+With every request, the Facebook accessToken must be passed. 
+
+```
+accessToken: String
+```
+
 ## User routes
 
 <hr>
 
-### `/users/loginOrSignup` - POST - used for user login or signup
+### `/users/login` - POST - used for user login or signup
 
 This route logs in using FB auth. If the returned userId does not exist then it creates a new account.
 
-The server calculates the social score and uses it to calculate the maximum amount the user can borrow. It then sends that amount back to the client for client side validation.
-
-**consumes**
-
-```
-FB-auth: userId
-FB-auth: friend count
-```
-
-**emits**
-
-```
-{
-  statusCode: Number,
-  maxLoanAmount: Number
-}
-```
-<hr>
-
-### `/users/logout` - POST - used for user logout
-
-On logout, the server deletes the session for that userId.
-
-**consumes**
-
-```
-user-session: userId
-```
+The server calculates the social score and uses it to calculate the maximum amount the user can borrow.
 
 **emits**
 
@@ -43,19 +24,28 @@ user-session: userId
 {
   statusCode: Number
 }
-
 ```
 <hr>
 
-### `/users/history` - GET - used for getting loan history
+### `/users/info` - GET - used for getting user information
+
+Returns an object containing user specific information namely, name, email, and social score.
+
+**emits**
+
+```
+{
+  firstName: String,
+  lastName: String,
+  socialScore: Number,
+  maxLoanAmount: Number
+}
+```
+<hr>
+
+### `/users/loans` - GET - used for getting loan history
 
 Returns an array containing the details of all loans taken by the user.
-
-**consumes**
-
-```
-user-session: userId
-```
 
 **emits**
 
@@ -63,54 +53,86 @@ user-session: userId
 {
   loans: [
     {
-      installmentCount: Number,
+      outstandingAmount: Number,
       totalAmount: Number,
-      outstandingAmount: Number
+      outstandingInstallments: Number,
+      totalInstallments: Number
     }
   ]
 }
 ```
 <hr>
 
-### `/users/info` - GET - used for getting user information
-
-Returns an object containing user specific information namely, name, email, social score and connected accounts.
-
-**consumes**
-
-```
-user-session: userId
-```
-
-**emits**
-
-```
-{
-  name: String,
-  email: String,
-  social_score: Number,
-  connected_accounts: bool[]
-}
-```
-<hr>
-
-## Bank Routes
-
-<hr>
-
-### `/bank/takeLoan` - POST - used for requesting loan
+### `/users/loan` - POST - used for requesting loan
 
 The server checks if the user is eligible for the requested loan amount. The decision is then reflected on the returned status code.
 
 **consumes**
 
 ```
-user-session: userId
+{
+  amount: Number
+}
 ```
+
+**emits**
 
 ```
 {
-  requestAmount: Number
+  statusCode: Number,
+  message: String
+}
+```
+<hr>
+
+### `/users/emi` - POST - used for paying emi
+
+Reduces the number of pending installments by one, if any.
+
+**emits**
+
+```
+{
+  statusCode: Number
+}
+```
+<hr>
+
+## Admin routes
+
+### `/admin/loans` - GET - used by admin to view the loan ledger
+
+Returns an array containing loan information for all users.
+
+**emits**
+
+```
+{
+  loans:
+  [
+    {
+      loanId: Number,
+      outstandingAmount: Number,
+      totalAmount: Number,
+      outstandingInstallments: Number,
+      totalInstallments: Number,
+      userId: Number,
+      userName: String,
+    }
+  ]
+}
+```
+<hr>
+
+### `/admin/max_amount` - POST - used by admin to set the funds in the bank
+
+The result of the operation is then reflected on the returned status code.
+
+**consumes**
+```
+{
+  amount: Number, 
+  currency: String
 }
 ```
 
@@ -123,21 +145,16 @@ user-session: userId
 ```
 <hr>
 
-### `/bank/payEmi` - POST - used for paying emi
+### `/admin/max_amount` - GET - used by admin to get the funds in the bank
 
-Reduces the number of pending installments by one, if any.
-
-**consumes**
-
-```
-user-session: userId
-```
+Returns an object containing current funds and the currency information of the bank.
 
 **emits**
 
 ```
 {
-  statusCode: Number
+  amount: Number, 
+  currency: String
 }
 ```
 <hr>
