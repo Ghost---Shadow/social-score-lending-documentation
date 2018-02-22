@@ -5,38 +5,38 @@
 | Field Name | Type | Additional Property | Description |
 |------------|------|---------------------|-------------|
 | id | INTEGER | PRIMARY KEY | Primary key for users table |
-| first_name | STRING |  | First name of the user |
-| last_name | STRING | | Last name of the user |
-| social_score | FLOAT | NOT NULL | Social score of the user |
-| max_loan_amount | FLOAT | NOT NULL | Maximum amount of loan eligible |
+| firstName | STRING |  | First name of the user |
+| lastName | STRING | | Last name of the user |
+| socialScore | FLOAT | NOT NULL | Social score of the user |
+| maxLoanAmount | FLOAT | NOT NULL | Maximum amount of loan eligible |
 
 ## `loans` Table
 
 | Field Name | Type | Additional Property | Description |
 |------------|------|---------------------|-------------|
 | id | INTEGER | PRIMARY KEY | Primary key for loans |
-| outstanding_amount | FLOAT | NOT NULL | Amount of unpaid loan |
-| total_amount | FLOAT |  NOT NULL | Total amount of loan taken by user |
-| outstanding_installments | INTEGER | NOT NULL | Number of remaining installments |
-| total_installments | INTEGER | NOT NULL | Total number of installments |
-| user_id | INTEGER | FOREIGN KEY | Foregin key to the id of the `users` table |
+| outstandingAmount | FLOAT | NOT NULL | Amount of unpaid loan |
+| totalAmount | FLOAT |  NOT NULL | Total amount of loan taken by user |
+| outstandingInstallments | INTEGER | NOT NULL | Number of remaining installments |
+| totalInstallments | INTEGER | NOT NULL | Total number of installments |
+| userId | INTEGER | FOREIGN KEY | Foregin key to the id of the `users` table |
 
-## `emi` Table
+## `emis` Table
 
 | Field Name | Type | Additional Property | Description |
 |------------|------|---------------------|-------------|
 | id | INTEGER | PRIMARY KEY | Primary key for each emi paid |
-| user_id | INTEGER | FOREIGN KEY | Foreign key to the id of the `users` table |
-| loan_id | INTEGER | FOREIGN KEY  | Foreign key to the id of the `loans` table |
+| userId | INTEGER | FOREIGN KEY | Foreign key to the id of the `users` table |
+| loanId | INTEGER | FOREIGN KEY  | Foreign key to the id of the `loans` table |
 
-## `facebook` Table
+## `facebooks` Table
 
 | Field Name | Type | Additional Property | Description |
 |------------|------|---------------------|-------------|
 | id | STRING | PRIMARY KEY | FB user auth token |
-| user_id | INTEGER | FOREIGN KEY | Foregin key to the id of the `users` table |
+| userId | INTEGER | FOREIGN KEY | Foregin key to the id of the `users` table |
 
-## `bank` Table
+## `banks` Table
 
 | Field Name | Type | Additional Property | Description |
 |------------|------|---------------------|-------------|
