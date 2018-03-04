@@ -38,7 +38,12 @@ Returns an object containing user specific information namely, name, email, and 
   firstName: String,
   lastName: String,
   socialScore: Number,
-  maxLoanAmount: Number
+  maxLoanAmount: Number,
+  socialScoreBreakdown: {
+    facebook: {
+      numberOfFbFriends: Number
+    }
+  }
 }
 ```
 <hr>
